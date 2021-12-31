@@ -11,21 +11,32 @@ import subprocess
 
 console = Console()
 mpv_proc = None
-sub_proc = '1' 
 
 
 def mpv_call(video_id):
     global sub_proc
-    sub_proc = subprocess.Popen(["mpv", f"https://youtube.com/watch?v={video_id}", "--no-video", "--really-quiet", "--input-terminal=no", "--input-unix-socket=/tmp/mpvsocket"])
+    sub_proc = subprocess.Popen(
+        [
+            "mpv",
+            f"https://youtube.com/watch?v={video_id}",
+            "--no-video",
+            "--really-quiet",
+            "--input-terminal=no",
+            "--input-unix-socket=/tmp/mpvsocket",
+        ]
+    )
+
 
 def search(api, keyword="lofi"):
     return api.search_by_keywords(q=keyword, search_type=["video"], count=15, limit=15)
 
+
 def un_magic_quotes(string):
-    return string.replace("&quot;", "\"").replace("&#39;", "'").replace("&amp;", "&")
+    return string.replace("&quot;", '"').replace("&#39;", "'").replace("&amp;", "&")
+
 
 def display_table(items, header="lofi"):
-    table = Table(title=f"Search results for \"{header}\":")
+    table = Table(title=f'Search results for "{header}":')
     table.add_column("#", style="cyan", no_wrap=True)
     table.add_column("Title", style="magenta")
     table.add_column("Published By", justify="right", style="green")
@@ -37,6 +48,7 @@ def display_table(items, header="lofi"):
 
     console.print(table, justify="center")
 
+
 def stop_playback():
     if os.path.exists("/tmp/mpvsocket"):
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
@@ -47,10 +59,11 @@ def stop_playback():
         except:
             pass
 
+
 def main():
-    global mpv_proc, sub_proc
-    currently_playing = ''
-    api = Api(api_key="AIzaSyDIggr4iW8YTL2Ovlb86bU5q4pR5IDoQXA")
+    global mpv_proc
+    currently_playing = ""
+    api = Api(api_key="your_api_key_here")
 
     while 1:
         console.clear()
@@ -69,4 +82,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
