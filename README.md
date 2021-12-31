@@ -21,3 +21,6 @@ Post-selection:
 * mpv
 * python 3.7~
 * YouTube API
+* python lib rich
+* python lib youtube-api
+* YouTube Big Data v3 API key
